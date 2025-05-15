@@ -1,8 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head><title>View 4</title></head>
-<body>
-    <h1>Це View 4</h1>
-    <a href="{% url 'home' %}">На головну</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Особистий кабінет — KeyTopia{% endblock %}
+{% block content %}
+    <h2>Особистий кабінет</h2>
+    <p>Тут ви зможете переглянути ваші замовлення, перевірити товари у кошику та змінити особисті дані.</p>
+    <ul class="list-group mt-3">
+        <li class="list-group-item bg-dark text-white">🛒 Переглянути кошик</li>
+        <li class="list-group-item bg-dark text-white">📦 Ваші замовлення</li>
+        <li class="list-group-item bg-dark text-white">⚙️ Налаштування профілю</li>
+    </ul>
+{% endblock %}

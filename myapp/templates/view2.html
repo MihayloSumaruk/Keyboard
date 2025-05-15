@@ -1,8 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head><title>View 2</title></head>
-<body>
-    <h1>Це View 2</h1>
-    <a href="{% url 'home' %}">На головну</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Каталог — KeyTopia{% endblock %}
+{% block content %}
+    <h2>Каталог клавіатур</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+        {% for product in products %}
+            {% if product.product_type == 'ELECTRONICS' %}
+                <div class="col">
+                    <div class="card bg-dark text-white h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <a href="#" class="btn btn-primary">Детальніше</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

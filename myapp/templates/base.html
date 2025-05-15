@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}KeyTopia{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body class="bg-dark text-light">
+
+<header class="navbar navbar-expand-lg navbar-dark bg-purple px-3">
+  <a class="navbar-brand" href="{% url 'home' %}">KeyTopia</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">Про нас</a></li>
+      <li class="nav-item"><a href="{% url 'catalog' %}" class="nav-link">Каталог</a></li>
+      <li class="nav-item"><a href="{% url 'support' %}" class="nav-link">Техпідтримка</a></li>
+      <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link">Особистий кабінет</a></li>
+    </ul>
+
+    <form class="d-flex" method="GET" action="{% url 'catalog' %}">
+      <input class="form-control me-2" type="search" placeholder="Пошук товарів..." aria-label="Search" name="q" value="{{ request.GET.q }}">
+      <button class="btn btn-outline-light" type="submit">Пошук</button>
+    </form>
+  </div>
+</header>
+
+<main class="container my-4">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="bg-purple text-center text-light py-3 mt-auto">
+  © 2025 KeyTopia — Магазин клавіатур та електроніки
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
