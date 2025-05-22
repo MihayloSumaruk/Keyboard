@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}Каталог — KeyTopia{% endblock %}
+
 {% block content %}
-    <h2>Каталог клавіатур</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
-        {% for product in products %}
-            {% if product.product_type == 'ELECTRONICS' %}
-                <div class="col">
-                    <div class="card bg-dark text-white h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <a href="#" class="btn btn-primary">Детальніше</a>
-                        </div>
+<h2>Каталог клавіатур</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+    {% for product in products %}
+        {% if product.product_type == 'MECHANIK' %}
+            <div class="col">
+                <div class="card bg-dark text-white h-100">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top fixed-img" alt="{{ product.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">
+                            {{ product.description|truncatewords:25 }}{% if product.description|length > 250 %}...{% endif %}
+                        </p>
+                        <p class="card-text"><strong>Ціна:</strong> {{ product.price }} грн</p>
+                        <p class="card-text"><strong>Кількість на складі:</strong> {{ product.stock }}</p>
+                        <p class="card-text"><strong>Категорія:</strong> {{ product.category.name }}</p>
+                        <a href="{% url 'shop:product_detail' product_id=product.id %}" class="btn btn-primary">Детальніше</a>
                     </div>
                 </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
 {% endblock %}

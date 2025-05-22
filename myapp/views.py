@@ -1,18 +1,16 @@
-from django.shortcuts import render
-from .models import Product  # додай, якщо немає
+from django.http import HttpResponse
 
 def home(request):
-    products = Product.objects.all()[:12]  # беремо перші 12 товарів
-    return render(request, 'home.html', {'products': products})
+    return HttpResponse("Home from myapp")
 
 def view1(request):
-    return render(request, 'view1.html')
+    return HttpResponse("About from myapp")
 
 def view2(request):
-    return render(request, 'view2.html')
+    return HttpResponse("Catalog from myapp")
 
 def view3(request):
-    return render(request, 'view3.html')
+    return HttpResponse("Support from myapp")
 
 def view4(request):
-    return render(request, 'view4.html')
+    return HttpResponse("Profile from myapp")

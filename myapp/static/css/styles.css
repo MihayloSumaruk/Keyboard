@@ -1,0 +1,8 @@
+.card-img-top.fixed-img {
+  width: 100%;
+  height: 200px;          /* фіксована висота для всіх картинок */
+  object-fit: contain;    /* картинка впишеться повністю, не обрізаючись */
+  background-color: #222; /* темний фон, щоб виділити білі картинки */
+  border-radius: 8px;
+}
+

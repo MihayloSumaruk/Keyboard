@@ -7,24 +7,45 @@
     <title>{% block title %}KeyTopia{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <style>
+      /* Для того, щоб футер прижимався до низу */
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        background-color: #121212; /* замінив bg-dark на темний фон */
+        color: #f8f9fa;
+        min-height: 100vh;
+      }
+      main.container {
+        flex: 1 0 auto; /* головний контент розтягується */
+      }
+      footer {
+        flex-shrink: 0; /* футер не стискається */
+        background-color: #6f42c1; /* твій bg-purple, або заміни на потрібний */
+      }
+    </style>
 </head>
-<body class="bg-dark text-light">
+<body>
 
-<header class="navbar navbar-expand-lg navbar-dark bg-purple px-3">
-  <a class="navbar-brand" href="{% url 'home' %}">KeyTopia</a>
+<header class="navbar navbar-expand-lg navbar-dark" style="background-color: #6f42c1; padding-left: 1rem; padding-right: 1rem;">
+  <a class="navbar-brand" href="{% url 'shop:home' %}">KeyTopia</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav me-auto">
-      <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">Про нас</a></li>
-      <li class="nav-item"><a href="{% url 'catalog' %}" class="nav-link">Каталог</a></li>
-      <li class="nav-item"><a href="{% url 'support' %}" class="nav-link">Техпідтримка</a></li>
-      <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link">Особистий кабінет</a></li>
+      <li class="nav-item"><a href="{% url 'shop:about' %}" class="nav-link">Про нас</a></li>
+      <li class="nav-item"><a href="{% url 'shop:catalog' %}" class="nav-link">Каталог</a></li>
+      <li class="nav-item"><a href="{% url 'shop:support' %}" class="nav-link">Техпідтримка</a></li>
+      <li class="nav-item"><a href="{% url 'shop:profile' %}" class="nav-link">Особистий кабінет</a></li>
     </ul>
 
-    <form class="d-flex" method="GET" action="{% url 'catalog' %}">
+    <form class="d-flex" method="GET" action="{% url 'shop:catalog' %}">
       <input class="form-control me-2" type="search" placeholder="Пошук товарів..." aria-label="Search" name="q" value="{{ request.GET.q }}">
       <button class="btn btn-outline-light" type="submit">Пошук</button>
     </form>
@@ -35,7 +56,7 @@
   {% block content %}{% endblock %}
 </main>
 
-<footer class="bg-purple text-center text-light py-3 mt-auto">
+<footer class="text-center text-light py-3 mt-auto">
   © 2025 KeyTopia — Магазин клавіатур та електроніки
 </footer>
 

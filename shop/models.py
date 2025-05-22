@@ -18,17 +18,21 @@ class Category(models.Model):
 
 class Product(models.Model):
     # Варіанти для типу товару
-    ELECTRONICS = 'ELECTRONICS'
-    APPAREL = 'APPAREL'
-    FOOD = 'FOOD'
-    BOOKS = 'BOOKS'
+    MEMBRANIK = 'MEMBRANIK'
+    MECHANIK = 'MECHANIK'
+
 
     PRODUCT_TYPE_CHOICES = [
-        (ELECTRONICS, 'Електроніка'),
-        (APPAREL, 'Одяг'),
-        (FOOD, 'Продукти харчування'),
-        (BOOKS, 'Книги'),
+        (MEMBRANIK, 'Мембранні'),
+        (MECHANIK, 'Механічні'),
+
     ]
+
+    image = models.ImageField(
+        upload_to='products/',
+        blank=True,
+        verbose_name="Зображення"
+    )
 
     category = models.ForeignKey(
         Category,
@@ -67,7 +71,7 @@ class Product(models.Model):
     product_type = models.CharField(
         max_length=50,
         choices=PRODUCT_TYPE_CHOICES,
-        default=ELECTRONICS,
+        default=MECHANIK,
         verbose_name="Тип товару"
     )
     created = models.DateTimeField(

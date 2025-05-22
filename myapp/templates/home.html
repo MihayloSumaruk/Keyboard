@@ -29,10 +29,9 @@
     {% for product in products %}
     <div class="col">
       <div class="card h-100 text-bg-dark">
-        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.model }}">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
         <div class="card-body">
-          <h5 class="card-title">{{ product.brand }} {{ product.model }}</h5>
-          <p class="card-text">{{ product.price }} ₴</p>
+            <h5 class="card-title text-center">{{ product.name }}</h5>
         </div>
       </div>
     </div>

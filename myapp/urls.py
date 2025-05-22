@@ -1,14 +1,14 @@
 from django.urls import path
-from . import views
+from shop import views as shop_views  # Імпортуємо view з shop
+
+app_name = 'shop'  # namespace для URL
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('view1/', views.view1, name='about'),
-    path('view2/', views.view2, name='catalog'),
-    path('view3/', views.view3, name='support'),
-    path('view4/', views.view4, name='profile'),
-    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('category/<str:category_name>/', views.category_view, name='category_view'),
-
+    path('', shop_views.home, name='home'),
+    path('view1/', shop_views.view1, name='about'),
+    path('view2/', shop_views.view2, name='catalog'),
+    path('view3/', shop_views.view3, name='support'),
+    path('view4/', shop_views.view4, name='profile'),
+    path('product/<int:product_id>/', shop_views.product_detail, name='product_detail'),
+    path('category/<int:category_id>/', shop_views.category_detail, name='category_detail'),
 ]
-
