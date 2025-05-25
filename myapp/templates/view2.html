@@ -3,27 +3,60 @@
 
 {% block content %}
 <h2>Каталог клавіатур</h2>
-<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
-    {% for product in products %}
-        {% if product.product_type == 'MECHANIK' %}
-            <div class="col">
-                <div class="card bg-dark text-white h-100">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top fixed-img" alt="{{ product.name }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">
-                            {{ product.description|truncatewords:25 }}{% if product.description|length > 250 %}...{% endif %}
-                        </p>
-                        <p class="card-text"><strong>Ціна:</strong> {{ product.price }} грн</p>
-                        <p class="card-text"><strong>Кількість на складі:</strong> {{ product.stock }}</p>
-                        <p class="card-text"><strong>Категорія:</strong> {{ product.category.name }}</p>
-                        <a href="{% url 'shop:product_detail' product_id=product.id %}" class="btn btn-primary">Детальніше</a>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+
+<!-- Форма пошуку та вибору бренду -->
+<form method="GET" class="mb-3 d-flex gap-2 align-items-center">
+
+  <!-- Поле пошуку (середнє за шириною) -->
+  <input
+    type="text"
+    name="search"
+    placeholder="Пошук товарів..."
+    value="{{ request.GET.search }}"
+    class="form-control"
+    style="max-width: 350px;"
+  >
+
+  <!-- Вибір бренду (маленький селект) -->
+  <select
+    name="brand"
+    class="form-select form-select-sm"
+    style="max-width: 150px;"
+    onchange="this.form.submit()"
+  >
+    <option value="">Всі бренди</option>
+    {% for brand in brands %}
+      <option value="{{ brand }}" {% if request.GET.brand == brand %}selected{% endif %}>{{ brand }}</option>
     {% endfor %}
+  </select>
+
+  <!-- Кнопка пошуку (мала) -->
+  <button type="submit" class="btn btn-primary btn-sm">Пошук</button>
+</form>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+  {% for product in products %}
+    {% if product.product_type == 'MECHANIK' %}
+      <div class="col">
+        <div class="card bg-dark text-white h-100">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top fixed-img" alt="{{ product.name }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">
+              {{ product.description|truncatewords:25 }}{% if product.description|length > 250 %}...{% endif %}
+            </p>
+            <p class="card-text"><strong>Ціна:</strong> {{ product.price }} грн</p>
+            <p class="card-text"><strong>Кількість на складі:</strong> {{ product.stock }}</p>
+            <p class="card-text"><strong>Категорія:</strong> {{ product.category.name }}</p>
+            <!-- Якщо є поле brand як рядок -->
+            <p class="card-text"><strong>Бренд:</strong> {{ product.brand }}</p>
+            <a href="{% url 'shop:product_detail' product_id=product.id %}" class="btn btn-primary">Детальніше</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
 </div>
 {% endblock %}

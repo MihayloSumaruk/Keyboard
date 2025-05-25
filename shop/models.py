@@ -16,16 +16,21 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
+class Brand(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Бренд")
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
-    # Варіанти для типу товару
     MEMBRANIK = 'MEMBRANIK'
     MECHANIK = 'MECHANIK'
-
 
     PRODUCT_TYPE_CHOICES = [
         (MEMBRANIK, 'Мембранні'),
         (MECHANIK, 'Механічні'),
-
     ]
 
     image = models.ImageField(
@@ -39,6 +44,14 @@ class Product(models.Model):
         related_name='products',
         on_delete=models.CASCADE,
         verbose_name="Категорія"
+    )
+    brand = models.ForeignKey(
+        Brand,
+        related_name='products',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Бренд"
     )
     name = models.CharField(
         max_length=200,
