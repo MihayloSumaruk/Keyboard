@@ -1,0 +1,26 @@
+{% if cart_items %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Кількість</th>
+            <th>Ціна за одиницю</th>
+            <th>Разом</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.price }} грн</td>
+            <td>{{ item.total_price }} грн</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p><strong>Загальна сума:</strong> {{ total_price }} грн</p>
+<a href="{% url 'shop:checkout' %}" class="btn btn-success">Оформити замовлення</a>
+{% else %}
+<p>Ваш кошик порожній.</p>
+{% endif %}

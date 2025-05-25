@@ -5,11 +5,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    # Сторінки типу view1/view2/ і т.д.
-    path('', include('myapp.urls')),
-
-    # Нові сторінки категорій і товарів
     path('', include(('shop.urls', 'shop'), namespace='shop')),
 ]
 

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Оформлення замовлення — KeyTopia{% endblock %}
+
+{% block content %}
+<div class="container mt-4 text-white">
+    <h2>Оформлення замовлення</h2>
+
+    <div class="row">
+        <!-- Ліва колонка: товари -->
+        <div class="col-md-5">
+            <h4>Товари у кошику</h4>
+            {% if cart_items %}
+                <div class="list-group">
+                    {% for item in cart_items %}
+                        <div class="list-group-item bg-dark text-white mb-2 rounded d-flex">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
+                            {% else %}
+                                <div class="me-3" style="width: 80px; height: 80px; background: #555; border-radius: 5px; display: flex; align-items: center; justify-content: center;">No Image</div>
+                            {% endif %}
+                            <div>
+                                <h6 class="mb-1">{{ item.product.name }}</h6>
+                                <p class="mb-1 small text-muted">{{ item.product.description|truncatechars:80 }}</p>
+                                <p class="mb-0 small">Кількість: {{ item.quantity }} шт. — {{ item.product.price }} грн</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <p class="mt-3"><strong>Загальна сума:</strong> {{ total_price }} грн</p>
+            {% else %}
+                <p>Кошик порожній</p>
+            {% endif %}
+        </div>
+
+        <!-- Права колонка: форма -->
+        <div class="col-md-7">
+            <hr class="d-md-none"> <!-- Лінія розділу для мобільних -->
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="full_name" class="form-label small">ПІБ</label>
+                    <input type="text" class="form-control form-control-sm" id="full_name" name="full_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small">Тип оплати</label>
+                    <select class="form-select form-select-sm" id="payment_type" name="payment_type" required>
+                        <option value="" selected disabled>Оберіть тип оплати</option>
+                        <option value="cash">Готівка</option>
+                        <option value="card">Карта</option>
+                    </select>
+                </div>
+
+                <div id="card_details" style="display:none;">
+                    <div class="row g-2 mb-3">
+                        <div class="col-7">
+                            <label for="card_number" class="form-label small">Номер картки</label>
+                            <input type="text" class="form-control form-control-sm" id="card_number" name="card_number" pattern="\d{16}" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="col-3">
+                            <label for="security_code" class="form-label small">CVV</label>
+                            <input type="text" class="form-control form-control-sm" id="security_code" name="security_code" pattern="\d{3}" placeholder="123">
+                        </div>
+                        <div class="col-2">
+                            <label for="expiry_date" class="form-label small">Термін дії</label>
+                            <input type="month" class="form-control form-control-sm" id="expiry_date" name="expiry_date" min="{{ current_year }}-{{ current_month }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small">Тип доставки</label>
+                    <select class="form-select form-select-sm" id="delivery_type" name="delivery_type" required>
+                        <option value="" selected disabled>Оберіть тип доставки</option>
+                        <option value="courier">Кур'єр</option>
+                        <option value="pickup">Самовивіз</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="payment_timing" class="form-label small">Оплата готівкою</label>
+                    <select class="form-select form-select-sm" id="payment_timing" name="payment_timing" required>
+                        <option value="" selected disabled>Оберіть час оплати</option>
+                        <option value="prepay">Перед оплатою</option>
+                        <option value="on_delivery">При отриманні товару</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label small">E-mail</label>
+                    <input type="email" class="form-control form-control-sm" id="email" name="email" required placeholder="example@example.com">
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label small">Адреса</label>
+                    <textarea class="form-control form-control-sm" id="address" name="address" rows="2" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label small">Номер телефону</label>
+                    <input type="tel" class="form-control form-control-sm" id="phone" name="phone" pattern="\+?\d{9,15}" placeholder="+380XXXXXXXXX" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-sm">Підтвердити замовлення</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const paymentTypeSelect = document.getElementById('payment_type');
+    const cardDetailsDiv = document.getElementById('card_details');
+
+    paymentTypeSelect.addEventListener('change', function() {
+        if (this.value === 'card') {
+            cardDetailsDiv.style.display = 'block';
+            document.getElementById('card_number').required = true;
+            document.getElementById('security_code').required = true;
+            document.getElementById('expiry_date').required = true;
+        } else {
+            cardDetailsDiv.style.display = 'none';
+            document.getElementById('card_number').required = false;
+            document.getElementById('security_code').required = false;
+            document.getElementById('expiry_date').required = false;
+        }
+    });
+</script>
+{% endblock %}

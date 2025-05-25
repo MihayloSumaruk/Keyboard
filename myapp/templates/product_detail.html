@@ -1,19 +1,28 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — KeyTopia{% endblock %}
+
 {% block content %}
-<h2>{{ product.name }}</h2>
+<div class="container mt-4 text-white">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product.name }}</h2>
+            <p><strong>Ціна:</strong> {{ product.price }} грн</p>
+            <p><strong>Категорія:</strong> {{ product.category.name }}</p>
+            <p><strong>Опис:</strong> {{ product.description }}</p>
+            <p><strong>Кількість на складі:</strong> {{ product.stock }}</p>
+            <p><strong>Тип:</strong> {{ product.get_product_type_display }}</p>
 
-{% if product.image %}
-  <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:300px;">
-{% endif %}
-
-<p>{{ product.description }}</p>
-<p>Ціна: {{ product.price }} грн</p>
-
-<!-- Кнопки -->
-<form method="post" action="{% url 'shop:add_to_cart' product.id %}">
-  {% csrf_token %}
-  <button type="submit" name="action" value="add">Додати в кошик</button>
-  <button type="submit" name="action" value="buy">Купити</button>
-</form>
-
+            <form method="post" action="{% url 'shop:add_to_cart' product.id %}">
+                {% csrf_token %}
+                <button type="submit" name="action" value="buy" class="btn btn-success mt-3 me-2">Купити</button>
+                <button type="submit" name="action" value="add_to_cart" class="btn btn-success mt-3">Додати в кошик</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
